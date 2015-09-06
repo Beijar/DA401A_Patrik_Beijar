@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Assignment_1</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="header_text">Press to get quote of the day!</string>
+    <string name="button_text">Get quote</string>
+    <string name="quote_header">Quote of the day!</string>
+    <string-array name="quotes">
+        <item>Always borrow money from a pessimist. He won’t expect it back.</item>
+        <item>The only mystery in life is why the kamikaze pilots wore helmets.</item>
+        <item>"Talk is cheap. Show me the code."- Linus Torvalds</item>
+        <item> To iterate is human, to recurse divine.</item>
+        <item> “The trouble with programmers is that you can never tell what a
+            programmer is doing until it’s too late.</item>
+    </string-array>
+
+</resources>
