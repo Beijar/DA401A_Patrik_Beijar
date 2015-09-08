@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Assignment_1</string>
+
+    <string name="hello_world">Hej Världen</string>
+    <string name="action_settings">Inställningar</string>
+    <string name="header_text">Tryck för att få dagens citat!</string>
+    <string name="button_text">Få Citat</string>
+    <string name="quote_header">Dagens citat!</string>
+    <string-array name="quotes">
+        <item>Always borrow money from a pessimist. He won’t expect it back.</item>
+        <item>The only mystery in life is why the kamikaze pilots wore helmets.</item>
+        <item>"Talk is cheap. Show me the code."- Linus Torvalds</item>
+        <item> To iterate is human, to recurse divine.</item>
+        <item> “The trouble with programmers is that you can never tell what a
+            programmer is doing until it’s too late.</item>
+    </string-array>
+</resources>
