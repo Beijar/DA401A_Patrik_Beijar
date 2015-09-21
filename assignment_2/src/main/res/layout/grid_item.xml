@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context="com.beijar.patrik.assignment_2.DetailFragment"
+    android:orientation="vertical">
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/grid_item_image"
+            android:adjustViewBounds="true"
+            android:cropToPadding="false"
+            android:contextClickable="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="false"
+            android:scaleType="centerCrop" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="68dp"
+            android:id="@+id/linearLayout"
+            android:orientation="vertical"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentBottom="true"
+            android:background="#9a0a0a0a"
+            android:layout_alignParentStart="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/grid_item_title"
+                android:textSize="16sp"
+                android:textColor="#ffffff"
+                android:textIsSelectable="false"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/grid_item_year"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="8dp" />
+        </LinearLayout>
+
+
+</RelativeLayout>
