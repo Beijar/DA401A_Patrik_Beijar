@@ -25,6 +25,10 @@ public class QuoteAdapter extends BaseAdapter {
         return mList.size();
     }
 
+    public void setItem(String quote) {
+        this.mList.add(quote);
+    }
+
     @Override
     public Object getItem(int position) {
         return null;

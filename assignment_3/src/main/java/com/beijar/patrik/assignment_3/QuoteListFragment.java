@@ -5,15 +5,19 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import com.beijar.patrik.assignment_3.dummy.DummyContent;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -29,9 +33,11 @@ import java.util.LinkedList;
  * interface.
  */
 public class QuoteListFragment extends ListFragment {
-
+    private ProgressBar progressBar;
     private OnFragmentInteractionListener mListener;
+
     QuoteAdapter adapter;
+    LinkedList<String> list = new LinkedList<>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -43,18 +49,17 @@ public class QuoteListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.list_quote, null, false);
+        progressBar = (ProgressBar)v.findViewById(R.id.progressBar);
         FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "FAB CLICKED", Toast.LENGTH_SHORT).show();
+                (new MyTask(progressBar)).execute("http://api.icndb.com/jokes/random");
             }
         });
         return v;
@@ -63,9 +68,6 @@ public class QuoteListFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        LinkedList<String> list = new LinkedList<>();
-        list.add("TEST TEXT 1");
-        list.add("TEST TEXT 2");
         adapter = new QuoteAdapter(getActivity(), list);
         setListAdapter(adapter);
     }
@@ -98,30 +100,67 @@ public class QuoteListFragment extends ListFragment {
         }
     }
 
-    class MyTask extends AsyncTask<String, Integer, String>{
+    private class MyTask extends AsyncTask<String, Integer, String>{
+        ProgressBar progressBar;
+
+        public MyTask(ProgressBar p) {
+            this.progressBar = p;
+        }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected String doInBackground(String... params) {
+            String TAG = "DEBUG";
+            String result;
+            HttpURLConnection conn = null;
             try {
+                Thread.sleep(500);
                 URL url = new URL(params[0]);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
-
                 conn.connect();
+
+                int response = conn.getResponseCode();
+                Log.d("DEBUG", "The response is: " + response);
+
                 InputStream is = conn.getInputStream();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+                byte[] byteInput = new byte[1024];
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+                while (is.read(byteInput) != -1){
+                    baos.write(byteInput);
+                }
+
+                String JSONResp = new String(baos.toByteArray());
+
+                Log.d(TAG, JSONResp);
+
+                JSONObject jsnobject = new JSONObject(JSONResp).getJSONObject("value");
+                result = jsnobject.getString("joke");
+
+                conn.disconnect();
+                return  result;
+
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (JSONException e) {
+                Log.d(TAG, "JSON FEL");
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                if(conn!= null){
+                    conn.disconnect();
+                }
             }
             return null;
-
         }
+
 
         @Override
         protected void onProgressUpdate(Integer... values) {
@@ -129,11 +168,13 @@ public class QuoteListFragment extends ListFragment {
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(String result) {
+            progressBar.setVisibility(View.INVISIBLE);
+            super.onPostExecute(result);
+            adapter.setItem(result);
+            adapter.notifyDataSetChanged();
         }
     }
-
 
     /**
      * This interface must be implemented by activities that contain this
