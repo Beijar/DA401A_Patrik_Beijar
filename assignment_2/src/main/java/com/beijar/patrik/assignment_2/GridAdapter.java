@@ -22,9 +22,6 @@ public class GridAdapter extends BaseAdapter {
     public GridAdapter(Context c, List<Movie> movies){
         mContext = c;
         mMovies = movies;
-        int n = mMovies.size();
-
-
     }
 
     public int getCount(){
