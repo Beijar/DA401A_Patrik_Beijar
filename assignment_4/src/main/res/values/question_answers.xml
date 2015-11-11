@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="question_one">
+        <item>Which US state is named on the label of a Jack Daniels bottle?</item>
+        <item>Kansas</item>
+        <item>Tennessee</item>
+        <item>Washington</item>
+        <item>Tennessee</item>
+    </array>
+    <array name="question_two">
+        <item>Dhaslim is a character in which game?</item>
+        <item>Mortal Kombat</item>
+        <item>Street Fighter</item>
+        <item>Tekken</item>
+        <item>Street Fighter</item>
+    </array>
+    <array name="question_three">
+        <item>Ash Ketchum is the most famous Pokemon Trainer in the world - but how did he get Pikachu as his first pokemon ever?</item>
+        <item>Professor Oak gave Pikachu to him.</item>
+        <item>He saved Pikachu from Team Rocket.</item>
+        <item>He slept in and Pikachu was the only pokemon left.</item>
+        <item>He slept in and Pikachu was the only pokemon left.</item>
+    </array>
+    <array name="question_four">
+        <item>What is 1+1?</item>
+        <item>3</item>
+        <item>4</item>
+        <item>2</item>
+        <item>2</item>
+    </array>
+    <array name="question_five">
+        <item>What is 1+1?</item>
+        <item>3</item>
+        <item>4</item>
+        <item>2</item>
+        <item>2</item>
+    </array>
+    <array name="question_six">
+        <item>What is 1+1?</item>
+        <item>3</item>
+        <item>4</item>
+        <item>2</item>
+        <item>2</item>
+    </array>
+    <array name="question_seven">
+        <item>What is 1+1?</item>
+        <item>3</item>
+        <item>4</item>
+        <item>2</item>
+        <item>2</item>
+    </array>
+    <array name="questions">
+        <item>@array/question_one</item>
+        <item>@array/question_two</item>
+        <item>@array/question_three</item>
+        <item>@array/question_four</item>
+        <item>@array/question_five</item>
+        <item>@array/question_six</item>
+        <item>@array/question_seven</item>
+    </array>
+</resources>
