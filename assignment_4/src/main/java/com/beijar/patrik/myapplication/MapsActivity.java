@@ -34,8 +34,10 @@ public class MapsActivity extends FragmentActivity implements
     private static final String TAG = "VERBOSE";
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
-    private int count = 0;
-    public int score = 0;
+    private int mCount = 0;
+    public int mScore = 0;
+    static final String PLAYER_SCORE = "playerScore";
+    static final String PLAYER_PROGRESS = "playerProgress";
     ArrayList<Marker> mMarker = new ArrayList<>() ;
     ArrayList<Question> mQuestion = new ArrayList<>() ;
 
@@ -80,7 +82,7 @@ public class MapsActivity extends FragmentActivity implements
         questionArrays.recycle();
         // Add a markers and move the camera
         LatLng start = new LatLng(55.602669, 13.000371);
-        LatLng pub_one = new LatLng(55.603681, 13.000514); //real location 55.603681, 13.000514
+        LatLng pub_one = new LatLng(55.603681, 13.000514);
         LatLng pub_two = new LatLng(55.604899, 12.995285);
         LatLng pub_three = new LatLng(55.605225, 12.997979);
         LatLng pub_four = new LatLng(55.605526, 12.998822);
@@ -131,7 +133,7 @@ public class MapsActivity extends FragmentActivity implements
         MediaPlayer mPlayer = (MediaPlayer.create(this, R.raw.welcome));
 
         Location mLocation = new Location("mLocation");
-        Marker curMarker = mMarker.get(count);
+        Marker curMarker = mMarker.get(mCount);
         mLocation.setLongitude(curMarker.getPosition().longitude);
         mLocation.setLatitude(curMarker.getPosition().latitude);
 
@@ -140,10 +142,10 @@ public class MapsActivity extends FragmentActivity implements
 
         if(distance < 10) {
             mVibrate.vibrate(100);
-            //mPlayer.start();
+            mPlayer.start();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             Bundle args = new Bundle();
-            args.putSerializable("questionClass", mQuestion.get(count));
+            args.putSerializable("questionClass", mQuestion.get(mCount));
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -153,8 +155,26 @@ public class MapsActivity extends FragmentActivity implements
             mDialog.setArguments(args);
             mDialog.show(ft, "Quiz Time!");
 
-            count++;
-            mMarker.get(count).setVisible(true);
+            mCount++;
+            mMarker.get(mCount).setVisible(true);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current game state
+        savedInstanceState.putInt(PLAYER_SCORE, mScore);
+        savedInstanceState.putInt(PLAYER_PROGRESS, mCount);
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mScore = savedInstanceState.getInt(PLAYER_SCORE);
+        mCount = savedInstanceState.getInt(PLAYER_PROGRESS);
     }
 }

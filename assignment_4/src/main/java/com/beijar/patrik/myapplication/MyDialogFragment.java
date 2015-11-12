@@ -42,8 +42,8 @@ public class MyDialogFragment extends DialogFragment  {
                         Object checkedItem = lw.getAdapter().getItem(lw.getCheckedItemPosition());
 
                         if(checkedItem.toString().equals(question.getCorrect())){
-                            mMapsActivity.score = mMapsActivity.score + 10;
-                            String score = Integer.toString(mMapsActivity.score);
+                            mMapsActivity.mScore = mMapsActivity.mScore + 10;
+                            String score = Integer.toString(mMapsActivity.mScore);
 
                             TextView scoreBoard = (TextView) getActivity().findViewById(R.id.score);
                             scoreBoard.setText("Poäng: " + score);
