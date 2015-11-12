@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
-
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -81,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements
         questionArrays.recycle();
         // Add a markers and move the camera
         LatLng start = new LatLng(55.602669, 13.000371);
-        LatLng pub_one = new LatLng(55.604465, 13.009007); //real location 55.603681, 13.000514
+        LatLng pub_one = new LatLng(55.603681, 13.000514); //real location 55.603681, 13.000514
         LatLng pub_two = new LatLng(55.604899, 12.995285);
         LatLng pub_three = new LatLng(55.605225, 12.997979);
         LatLng pub_four = new LatLng(55.605526, 12.998822);
