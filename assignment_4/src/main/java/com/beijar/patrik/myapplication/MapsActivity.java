@@ -8,6 +8,8 @@ import android.os.Vibrator;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -82,7 +84,7 @@ public class MapsActivity extends FragmentActivity implements
         questionArrays.recycle();
         // Add a markers and move the camera
         LatLng start = new LatLng(55.602669, 13.000371);
-        LatLng pub_one = new LatLng(55.603681, 13.000514);
+        LatLng pub_one = new LatLng(55.604544, 13.008937);//55.603681, 13.000514
         LatLng pub_two = new LatLng(55.604899, 12.995285);
         LatLng pub_three = new LatLng(55.605225, 12.997979);
         LatLng pub_four = new LatLng(55.605526, 12.998822);
@@ -101,6 +103,7 @@ public class MapsActivity extends FragmentActivity implements
         mMarker.add(mMap.addMarker(new MarkerOptions().position(pub_six).title("Sixth Pub: Peas & Honey").icon(icon).visible(false)));
         mMarker.add(mMap.addMarker(new MarkerOptions().position(pub_final).title("Final Pub: Pickwick").icon(icon).visible(false)));
 
+        mMarker.get(mCount).setVisible(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(start, 16));
 
         UiSettings uiSettings = mMap.getUiSettings();
@@ -140,17 +143,21 @@ public class MapsActivity extends FragmentActivity implements
         float distance;
         distance = location.distanceTo(mLocation);
 
-        if(distance < 10) {
+        if(distance < 20) {
+            Log.d(TAG, "LOCATION CHEKING");
             mVibrate.vibrate(100);
             mPlayer.start();
+
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             Bundle args = new Bundle();
             args.putSerializable("questionClass", mQuestion.get(mCount));
+
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             MyDialogFragment mDialog = new MyDialogFragment();
             mDialog.setArguments(args);
             mDialog.show(ft, "Quiz Time!");
@@ -176,5 +183,9 @@ public class MapsActivity extends FragmentActivity implements
 
         mScore = savedInstanceState.getInt(PLAYER_SCORE);
         mCount = savedInstanceState.getInt(PLAYER_PROGRESS);
+
+        TextView scoreBoard = (TextView)findViewById(R.id.score);
+        String currentScore = Integer.toString(mScore);
+        scoreBoard.setText("Poäng: " + currentScore);
     }
 }
