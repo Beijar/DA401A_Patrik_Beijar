@@ -36,27 +36,26 @@ public class GridAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
         View gridView;
         ImageView imageView;
 
         if (convertView == null) {
-            Movie itemMovie = mMovies.get(position);
-
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
             gridView = inflater.inflate(R.layout.grid_item, parent, false);
-
-            TextView titleText = (TextView)gridView.findViewById(R.id.grid_item_title);
-            TextView yearText = (TextView)gridView.findViewById(R.id.grid_item_year);
-
-            titleText.setText(itemMovie.getmTitle());
-            yearText.setText(itemMovie.getmYear());
-
-            imageView = (ImageView)gridView.findViewById(R.id.grid_item_image);
-            imageView.setImageResource(itemMovie.getmThumbn());
         }
         else {
             gridView = convertView;
         }
+        Movie itemMovie = (Movie) getItem(position);
+
+        TextView titleText = (TextView)gridView.findViewById(R.id.grid_item_title);
+        TextView yearText = (TextView)gridView.findViewById(R.id.grid_item_year);
+
+        titleText.setText(itemMovie.getmTitle());
+        yearText.setText(itemMovie.getmYear());
+
+        imageView = (ImageView)gridView.findViewById(R.id.grid_item_image);
+        imageView.setImageResource(itemMovie.getmThumbn());
         return gridView;
     }
 }

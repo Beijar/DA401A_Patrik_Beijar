@@ -4,6 +4,7 @@ package com.beijar.patrik.wearable.assignment_5;
 
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -38,12 +39,6 @@ public class MasterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         Resources res = getResources();
         TypedArray ta = res.obtainTypedArray(R.array.movies);
@@ -57,8 +52,14 @@ public class MasterFragment extends Fragment {
         }
 
         ta.recycle();
+    }
 
-        View v = inflater.inflate(R.layout.fragment_master, container, false);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+
+        final View v = inflater.inflate(R.layout.fragment_master, container, false);
         final GridView gridview = (GridView) v.findViewById(R.id.gridview);
 
         mGridAdapter = new GridAdapter(v.getContext(), mMovieList);
@@ -92,7 +93,16 @@ public class MasterFragment extends Fragment {
         gridview.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-                mode.setTitle(gridview.getCheckedItemCount());
+                int selectCount = gridview.getCheckedItemCount();
+                mode.setSubtitle("" + selectCount + " items selected");
+
+                if(checked){
+                    View tv = (View) gridview.getChildAt(position);
+                    tv.setBackgroundColor(Color.MAGENTA);
+                }else{
+                    View tv = (View) gridview.getChildAt(position);
+                    tv.setBackgroundColor(Color.TRANSPARENT);
+                }
             }
 
             @Override

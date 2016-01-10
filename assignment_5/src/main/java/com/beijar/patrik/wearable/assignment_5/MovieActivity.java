@@ -1,12 +1,12 @@
 package com.beijar.patrik.wearable.assignment_5;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.widget.Toast;
 
 public class MovieActivity extends AppCompatActivity {
@@ -44,12 +44,14 @@ public class MovieActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
         Context context = getApplicationContext();
-        if(itemId == R.id.help){
-            Toast toast = Toast.makeText(context, "Här finns det inge info!", Toast.LENGTH_LONG);
-            toast.show();
+        switch(item.getItemId()) {
+            case R.id.help:
+                Toast toast = Toast.makeText(context, "Här finns det inge info!", Toast.LENGTH_LONG);
+                toast.show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 }
