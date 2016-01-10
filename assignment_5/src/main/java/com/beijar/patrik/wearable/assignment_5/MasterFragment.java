@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,14 +87,14 @@ public class MasterFragment extends Fragment {
                 transaction.commit();
             }
         });
-
+        // Creates function for enabling batch contextual actions
         gridview.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE_MODAL);
         gridview.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
                 int selectCount = gridview.getCheckedItemCount();
                 mode.setSubtitle("" + selectCount + " items selected");
-
+                //TODO: FIX COLOR HIGH LIGHT TO SELECTED ITEMS
                 if(checked){
                     View tv = (View) gridview.getChildAt(position);
                     tv.setBackgroundColor(Color.MAGENTA);
@@ -135,6 +134,7 @@ public class MasterFragment extends Fragment {
             }
 
             private void deleteSelectedItems(){
+                // Removes selected griditems from gridview
                 SparseBooleanArray checked = gridview.getCheckedItemPositions();
                 for (int i = 0; i < checked.size(); i++) {
                     mMovieList.remove(i);

@@ -44,6 +44,7 @@ public class MovieActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //Functions for selecting Option menu items
         Context context = getApplicationContext();
         switch(item.getItemId()) {
             case R.id.help:
