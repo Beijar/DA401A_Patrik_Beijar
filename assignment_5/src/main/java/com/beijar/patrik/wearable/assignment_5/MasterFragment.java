@@ -7,12 +7,15 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -24,6 +27,7 @@ import java.util.List;
 public class MasterFragment extends Fragment {
     public static final String FRAGMENT_BUNDLE_KEY = "MOVIE_CHOICE";
     List<Movie> mMovieList = new ArrayList<Movie>();
+    GridAdapter mGridAdapter;
 
 
     public MasterFragment() {
@@ -55,8 +59,10 @@ public class MasterFragment extends Fragment {
         ta.recycle();
 
         View v = inflater.inflate(R.layout.fragment_master, container, false);
-        GridView gridview = (GridView) v.findViewById(R.id.gridview);
-        gridview.setAdapter(new GridAdapter(v.getContext(), mMovieList));
+        final GridView gridview = (GridView) v.findViewById(R.id.gridview);
+
+        mGridAdapter = new GridAdapter(v.getContext(), mMovieList);
+        gridview.setAdapter(mGridAdapter);
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
@@ -81,6 +87,52 @@ public class MasterFragment extends Fragment {
                 transaction.commit();
             }
         });
+
+        gridview.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE_MODAL);
+        gridview.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                mode.setTitle(gridview.getCheckedItemCount());
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                MenuInflater inflater = mode.getMenuInflater();
+                inflater.inflate(R.menu.context_menu, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.item_delete:
+                        deleteSelectedItems();
+                        mode.finish(); // Action picked, so close the CAB
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+
+            }
+
+            private void deleteSelectedItems(){
+                SparseBooleanArray checked = gridview.getCheckedItemPositions();
+                for (int i = 0; i < checked.size(); i++) {
+                    mMovieList.remove(i);
+                }
+                mGridAdapter.notifyDataSetChanged();
+            }
+        });
+
         return v;
     }
 
